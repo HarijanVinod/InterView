@@ -7,4 +7,4 @@
    click on TestInsuranceClaim.csproj.
 5. If dll references is not found in both projects then select both projects click on show all file option from top then include bin folder and 
    obj folder in both projects then clean project simultaneously both projects and then rebuild both projects.
-6. then please set InterViewDemo as run project set as up project.   
+6. then please set InterViewDemo run as startup project.   
