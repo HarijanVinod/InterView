@@ -1,0 +1,72 @@
+﻿@model InterviewDemo.Models.DTO.ListLossTypesDTO
+
+@{
+    ViewBag.Title = "GetLossTypeData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetLossTypeData</h2>
+@*<style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+            table th {
+                background-color: #B8DBFD;
+                color: #333;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+            table, table table td {
+                border: 0px solid #ccc;
+            }
+    </style>*@
+<div class="container">
+    @using (Html.BeginForm("GetLossTypeData", "LoadLossTypeDetails", FormMethod.Post))
+    {
+        <h4>Customers</h4>
+        <hr />
+        <table cellpadding="0" cellspacing="0" class="table table-hover">
+            <tr>
+                <th>LossTypeId</th>
+                <th>LossTypeCode</th>
+                <th>LossTypeDescription</th>
+            </tr>
+            @foreach (var losstypesDTO in Model.lstlosstypesDTO)
+            {
+                <tr>
+                    <td>@losstypesDTO.LossTypeId</td>
+                    <td>@losstypesDTO.LossTypeCode</td>
+                    <td>@losstypesDTO.LossTypeDescription</td>
+                </tr>
+            }
+        </table>
+        <ul id="tblpagination" class="pagination pagination-lg" style="margin:0px;">
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="@(ViewBag.currentPageIndex==i?"active":"")"><a href="javascript:PagerClick(@i);">@i</a></li>
+            }
+        </ul>
+
+        <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+    }
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("hfCurrentPageIndex").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+</div>
+

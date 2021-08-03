@@ -1,0 +1,135 @@
+﻿@model InterviewDemo.Models.DTO.UsersParamDTO
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAuth.cshtml";
+}
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    small.help-block {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+<div class="login-register" style="padding:0px;">
+    <div class="login-box card">
+        <div class="card-body">
+            @using (Html.BeginForm("Login", "Authentication", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post
+                             , new
+                             {
+                                 @id = "loginForm",
+                                 @autocomplete = "off",
+                                 @data_fv_framework = "bootstrap",
+                                 @data_fv_icon_valid = "glyphicon glyphicon_ok",
+                                 @data_fv_icon_invalid = "glyphicon glyphicon_remove",
+                                 @data_fv_icon_validating = "glyphicon glyphicon_refresh"
+                             }))
+            {
+
+                @Html.AntiForgeryToken()
+                <h3 class="text-center m-b-20">
+                    Please Login
+                </h3>
+                <div class="form-group red">
+                    <span class="help-block with-errors red">@Html.ValidationSummary("", new { @style = "color:red;font-size:15px;" })</span>
+                    <span id="divDisplayMessages" class="help-block with-errors red" style="color:red;font-size:17px; font-style: normal;">@ViewBag.RouteMessage</span>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        @Html.TextBoxFor(model => model.UserName, new
+                   {
+
+                       @id = "idusername",
+                       @class = "form-control",
+                       @style = "border: 2px solid #b2cfd5;",
+                       @placeholder = "Username",
+                       @data_fv_row = ".form-group",
+                       @data_fv_notempty = "true",
+
+                       @autofocus = true
+                   })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        @Html.PasswordFor(model => model.Password, new
+                                                   {
+                                                       @class = "form-control",
+                                                       @data_fv_row = ".form-group",
+                                                       @style = "border: 2px solid #b2cfd5;",
+                                                       @data_fv_notempty = "true",
+                                                       @data_fv_notempty_message = "Please enter password",
+                                                       @placeholder = "Password"
+                                                   })
+                        <span class="help-block with-errors red">@Html.ValidationMessageFor(model => model.Password)</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="d-flex no-block align-items-center">
+                            <div class="">
+                                @Html.CheckBoxFor(Model => Model.RememberMe, new { @Id = "chkRememberMe", @style = "width:16px;" })
+                                <label class="" for="customCheck1">Remember me for 15 days</label>
+                            </div>
+                            <div class="ml-auto">
+                                <a href="javascript:void(0)" id="to-recover" class="text-muted"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <div class="col-xs-12 p-b-20">
+                        <button id="btnLogin" class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Log In</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+
+
+        $("#chkRememberMe").html("<span class='fa fa-check'></span>");
+
+        $('#btnLogin').click(function (eve) {
+            //debugger;
+            if ($('#loginForm').data("formValidation").isValid()) {
+                $("#divLoadingElement").show();
+            }
+        });
+
+        $('#loginForm').formValidation();
+
+    });
+
+
+    window.onload = function () {
+        if (typeof history.pushState === "function") {
+            history.pushState("jibberish", null, null);
+            window.onpopstate = function () {
+                history.pushState('newjibberish', null, null);
+                // Handle the back (or forward) buttons here
+                // Will NOT handle refresh, use onbeforeunload for this.
+            };
+        }
+        else {
+            var ignoreHashChange = true;
+            window.onhashchange = function () {
+                if (!ignoreHashChange) {
+                    ignoreHashChange = true;
+                    window.location.hash = Math.random();
+                    // Detect and redirect change here
+                    // Works in older FF and IE9
+                    // * it does mess with your hash symbol (anchor?) pound sign
+                    // delimiter on the end of the URL
+                }
+                else {
+                    ignoreHashChange = false;
+                }
+            };
+        }
+    };
+</script>
+
